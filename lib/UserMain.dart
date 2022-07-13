@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'ChangePassword.dart';
 import 'Dashboard.dart';
+import 'Login.dart';
 import 'Profile.dart';
-import 'Sign_up_login/ChangePassword.dart';
-import 'Sign_up_login/Login.dart';
 
 
 class UserMain extends StatefulWidget {

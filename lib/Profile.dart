@@ -13,48 +13,48 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-String name='is loading...';
-String email='isLoding...';
+// String name='is loading...';
+// String email='isLoding...';
 
-void getdata() async{
-User? user= await FirebaseAuth.instance.currentUser;
-var vari=await FirebaseFirestore.instance.collection('user').doc(user?.uid).get();
-setState(() {
-  name=vari.data()!['username'];
-  email=vari.data()!['email'];
-});
-}
-@override
-  void initState() {
-    // TODO: implement initState
-    getdata();
-    super.initState();
-  }
+// void getdata() async{
+// User? user= await FirebaseAuth.instance.currentUser;
+// var vari=await FirebaseFirestore.instance.collection('user').doc(user?.uid).get();
+// setState(() {
+//   name=vari.data()!['username'];
+//   email=vari.data()!['email'];
+// });
+// }
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     getdata();
+//     super.initState();
+//   }
 
 
-  // final uid = FirebaseAuth.instance.currentUser!.uid;
-  // final email = FirebaseAuth.instance.currentUser!.email;
-  // final creationTime = FirebaseAuth.instance.currentUser!.metadata.creationTime;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  final email = FirebaseAuth.instance.currentUser!.email;
+  final creationTime = FirebaseAuth.instance.currentUser!.metadata.creationTime;
  
 
 
-  // User? user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
-  // verifyEmail() async {
-  //   if (user != null && !user!.emailVerified) {
-  //     await user!.sendEmailVerification();
-  //     print('Verification Email has benn sent');
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: Colors.orangeAccent,
-  //         content: Text(
-  //           'Verification Email has benn sent',
-  //           style: TextStyle(fontSize: 18.0, color: Colors.black),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
+  verifyEmail() async {
+    if (user != null && !user!.emailVerified) {
+      await user!.sendEmailVerification();
+      print('Verification Email has benn sent');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            'Verification Email has benn sent',
+            style: TextStyle(fontSize: 18.0, color: Colors.black),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,23 +66,23 @@ setState(() {
           Row(
             children: [
               Text(
-                email,
+                'email:$email',
                 style: TextStyle(fontSize: 18.0),
               ),
             ],
           ),
-        //  user!.emailVerified
-        //           ? Text(
-        //              name,
-        //               style: TextStyle(fontSize: 18.0, color: Colors.blueGrey),
-        //             )
-        //           : TextButton(
-        //               onPressed: () => {verifyEmail()},
-        //               child: Text('Verify Email')),
-          // Text(
-          //   'Created: $creationTime',
-          //   style: TextStyle(fontSize: 18.0),
-          // ),
+         user!.emailVerified
+                  ? Text(
+                     'uid:$uid'
+                      ,style: TextStyle(fontSize: 18.0, color: Colors.blueGrey),
+                    )
+                  : TextButton(
+                      onPressed: () => {verifyEmail()},
+                      child: Text('Verify Email')),
+          Text(
+            'Created: $creationTime',
+            style: TextStyle(fontSize: 18.0),
+          ),
         ],
       ),
     );
