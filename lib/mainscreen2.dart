@@ -7,7 +7,7 @@ import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:image_picker/image_picker.dart';
 
-void main() => runApp(new MaterialApp(home: MyApp()));
+
 
 class MyApp extends StatefulWidget {
   @override
@@ -15,38 +15,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String? fileName;
+  late String fileName;
   List<Filter> filters = presetFiltersList;
-  final picker = ImagePicker();
-  File? imageFile;
+  late File imageFile;
 
   Future getImage(context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if(pickedFile!=null){
-    imageFile = new File(pickedFile.path);
-    fileName = basename(imageFile!.path);
-    var image = imageLib.decodeImage(await imageFile!.readAsBytes());
+    imageFile = (await ImagePicker().pickImage(source: ImageSource.gallery)) as File;
+    fileName = basename(imageFile.path);
+    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
     image = imageLib.copyResize(image!, width: 600);
-    Map imagefile = await Navigator.push(
+     Map imagefile = await Navigator.push(
       context,
+      // ignore: unnecessary_new
       new MaterialPageRoute(
+        // ignore: unnecessary_new
         builder: (context) => new PhotoFilterSelector(
-          title: Text("Photo Filter Example"),
-          image: image!,
-          filters: presetFiltersList,
-          filename: fileName!,
-          loader: Center(child: CircularProgressIndicator()),
-          fit: BoxFit.contain,
-        ),
+              title: Text("Photo Filter Example"),
+              image: image!,
+              filters: presetFiltersList,
+              filename: fileName,
+              loader: Center(child: CircularProgressIndicator()),
+              fit: BoxFit.contain,
+            ),
       ),
     );
-    
     if (imagefile != null && imagefile.containsKey('image_filtered')) {
       setState(() {
         imageFile = imagefile['image_filtered'];
       });
-      print(imageFile!.path);
-    }
+      print(imageFile.path);
     }
   }
 
@@ -62,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               ? Center(
                   child: new Text('No image selected.'),
                 )
-              : Image.file(new File(imageFile!.path)),
+              : Image.file(imageFile),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
