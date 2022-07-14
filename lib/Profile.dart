@@ -13,27 +13,27 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-String name='is loading...';
+// String name='is loading...';
 
 
-void getdata() async{
-User? user= await FirebaseAuth.instance.currentUser;
-var vari=await FirebaseFirestore.instance.collection('user').doc(user?.uid).get();
-print(vari.data()!['username']);
-// setState(() {
-// print(vari.data()?['username']);
+// void getdata() async{
+// User? user= await FirebaseAuth.instance.currentUser;
+// var vari=await FirebaseFirestore.instance.collection('user').doc(user?.uid).get();
+// print(vari.data()!['username']);
+// // setState(() {
+// // print(vari.data()?['username']);
  
-// });
-}
+// // });
+// }
 
-@override
-  void initState() {
-    // TODO: implement initState
-    getdata();
-    super.initState();
-  }
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     getdata();
+//     super.initState();
+//   }
 
-final fname = FirebaseAuth.instance.currentUser!.displayName;
+
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final email = FirebaseAuth.instance.currentUser!.email;
   final creationTime = FirebaseAuth.instance.currentUser!.metadata.creationTime;
@@ -74,23 +74,9 @@ final fname = FirebaseAuth.instance.currentUser!.displayName;
               ),
             ],
           ),
-            Row(
-            children: [
-              Text(
-                'name:$fname',
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ],
-          ),
+           
           
-          Row(
-            children: [
-              Text(
-                name,
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ],
-          ),
+         
          user!.emailVerified
                   ? Text(
                      'uid:$uid'

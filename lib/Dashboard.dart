@@ -17,7 +17,7 @@ class _DashboardState extends State<Dashboard> {
     return Center(
       child: Container(
           child: Text(
-        'Dashboard',
+        'Welcome to  Dashboard',
         style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
       )),
     );

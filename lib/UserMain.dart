@@ -1,3 +1,4 @@
+import 'package:filter_app/Filterscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _UserMainState extends State<UserMain> {
   static List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
     Profile(),
+    Mainscreen(),
     ChangePassword(),
   ];
   void _onItemTapped(int index) {
@@ -26,7 +28,7 @@ class _UserMainState extends State<UserMain> {
       _selectedIndex = index;
     });
   }
-   final username = FirebaseAuth.instance.currentUser!.displayName;
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +36,7 @@ class _UserMainState extends State<UserMain> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Welcome User: $username"),
+            Text("Welcome to Hybrid App"),
             ElevatedButton(
               onPressed: () async => {
                 await FirebaseAuth.instance.signOut(),
@@ -59,6 +61,10 @@ class _UserMainState extends State<UserMain> {
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.filter_vintage),
+            label: 'Filter',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'My Profile',
           ),
@@ -67,6 +73,8 @@ class _UserMainState extends State<UserMain> {
             label: 'Change Password',
           ),
         ],
+        type:BottomNavigationBarType.fixed,
+        backgroundColor: Colors.blue,
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.red,
         onTap: _onItemTapped,

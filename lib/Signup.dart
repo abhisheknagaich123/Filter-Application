@@ -22,7 +22,7 @@ class _SignupState extends State<Signup> {
   var email = "";
   var password = "";
   var confirmPassword = "";
-  var username="";
+
   
   
   // Create a text controller and use it to retrieve the current value
@@ -30,7 +30,7 @@ class _SignupState extends State<Signup> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final _usernameController= TextEditingController();
+ 
    final firebase = FirebaseFirestore.instance;
  // Uint8List? _image;
  XFile? xFile;
@@ -43,7 +43,7 @@ class _SignupState extends State<Signup> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
-    _usernameController.dispose();
+  
    
     super.dispose();
   }
@@ -64,7 +64,7 @@ class _SignupState extends State<Signup> {
       
 
         await firebase.collection("user").doc(email).set({
-        "username": username,
+      
         "email": email,
         'pasword':password,
    
@@ -137,58 +137,7 @@ class _SignupState extends State<Signup> {
           
           child: ListView(
             children: [
-              
-              
-              // Stack(
-              //   children: [
-              //     xFile!= null
-              //         ? Center(
-              //           child: CircleAvatar(
-              //               radius: 64,
-              //               backgroundImage: FileImage(File(imgXFile!.path)),
-              //               backgroundColor: Colors.red,
-              //             ),
-              //         )
-              //         : const CircleAvatar(
-              //             radius: 64,
-              //             backgroundImage: NetworkImage(
-              //                 'https://i.stack.imgur.com/l60Hf.png'),
-              //             backgroundColor: Colors.red,
-              //           ),
-              //     Positioned(
-              //       bottom: -10,
-              //       right: 85 ,
-              //       child: IconButton(
-              //         onPressed: ,
-              //         icon: const Icon(Icons.add_a_photo),
-              //       ),
-              //     )
-                     
-                  
-              //   ],
-               
-              // )
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10.0),
-                child: TextFormField(
-                  autofocus: false,
-                 
-                  decoration: InputDecoration(
-                    labelText: 'username: ',
-                    labelStyle: TextStyle(fontSize: 20.0),
-                    border: OutlineInputBorder(),
-                    errorStyle:
-                        TextStyle(color: Colors.redAccent, fontSize: 15),
-                  ),
-                  controller: _usernameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Enter username';
-                    }
-                    return null;
-                  },
-                ),
-              ),
+
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextFormField(
@@ -266,7 +215,7 @@ class _SignupState extends State<Signup> {
                             email = emailController.text;
                             password = passwordController.text;
                             confirmPassword = confirmPasswordController.text;
-                            username=_usernameController.text;
+                           
                           });
                           registration();
                         }

@@ -9,57 +9,57 @@ import 'package:image_picker/image_picker.dart';
 
 
 
-class MyApp extends StatefulWidget {
+class Mainscreen extends StatefulWidget {
   @override
-  _MyAppState createState() => new _MyAppState();
+  _MainscreenState createState() => new _MainscreenState();
 }
 
-class _MyAppState extends State<MyApp> {
-  late String fileName;
+class _MainscreenState extends State<Mainscreen> {
+  String? fileName;
   List<Filter> filters = presetFiltersList;
-  late File imageFile;
+  final picker = ImagePicker();
+  File? imageFile;
 
   Future getImage(context) async {
-    imageFile = (await ImagePicker().pickImage(source: ImageSource.gallery)) as File;
-    fileName = basename(imageFile.path);
-    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if(pickedFile!=null){
+    imageFile = new File(pickedFile.path);
+    fileName = basename(imageFile!.path);
+    var image = imageLib.decodeImage(await imageFile!.readAsBytes());
     image = imageLib.copyResize(image!, width: 600);
-     Map imagefile = await Navigator.push(
+    Map imagefile = await Navigator.push(
       context,
-      // ignore: unnecessary_new
       new MaterialPageRoute(
-        // ignore: unnecessary_new
         builder: (context) => new PhotoFilterSelector(
-              title: Text("Photo Filter Example"),
-              image: image!,
-              filters: presetFiltersList,
-              filename: fileName,
-              loader: Center(child: CircularProgressIndicator()),
-              fit: BoxFit.contain,
-            ),
+          title: Text("Photo Filter"),
+          image: image!,
+          filters: presetFiltersList,
+          filename: fileName!,
+          loader: Center(child: CircularProgressIndicator()),
+          fit: BoxFit.contain,
+        ),
       ),
     );
+    
     if (imagefile != null && imagefile.containsKey('image_filtered')) {
       setState(() {
         imageFile = imagefile['image_filtered'];
       });
-      print(imageFile.path);
+      print(imageFile!.path);
+    }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Photo Filter Example'),
-      ),
       body: Center(
         child: new Container(
           child: imageFile == null
               ? Center(
                   child: new Text('No image selected.'),
                 )
-              : Image.file(imageFile),
+              : Image.file(new File(imageFile!.path)),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
