@@ -2,12 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path/path.dart';
 import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:image_picker/image_picker.dart';
-
-
 
 class Mainscreen extends StatefulWidget {
   @override
@@ -22,31 +21,31 @@ class _MainscreenState extends State<Mainscreen> {
 
   Future getImage(context) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if(pickedFile!=null){
-    imageFile = new File(pickedFile.path);
-    fileName = basename(imageFile!.path);
-    var image = imageLib.decodeImage(await imageFile!.readAsBytes());
-    image = imageLib.copyResize(image!, width: 600);
-    Map imagefile = await Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new PhotoFilterSelector(
-          title: Text("Photo Filter"),
-          image: image!,
-          filters: presetFiltersList,
-          filename: fileName!,
-          loader: Center(child: CircularProgressIndicator()),
-          fit: BoxFit.contain,
+    if (pickedFile != null) {
+      imageFile = new File(pickedFile.path);
+      fileName = basename(imageFile!.path);
+      var image = imageLib.decodeImage(await imageFile!.readAsBytes());
+      image = imageLib.copyResize(image!, width: 600);
+      Map imagefile = await Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => new PhotoFilterSelector(
+            title: Text("Photo Filter"),
+            image: image!,
+            filters: presetFiltersList,
+            filename: fileName!,
+            loader: Center(child: CircularProgressIndicator()),
+            fit: BoxFit.contain,
+          ),
         ),
-      ),
-    );
-    
-    if (imagefile != null && imagefile.containsKey('image_filtered')) {
-      setState(() {
-        imageFile = imagefile['image_filtered'];
-      });
-      print(imageFile!.path);
-    }
+      );
+
+      if (imagefile != null && imagefile.containsKey('image_filtered')) {
+        setState(() {
+          imageFile = imagefile['image_filtered'];
+        });
+        print(imageFile!.path);
+      }
     }
   }
 
@@ -55,12 +54,66 @@ class _MainscreenState extends State<Mainscreen> {
     return new Scaffold(
       body: Center(
         child: new Container(
-          child: imageFile == null
-              ? Center(
-                  child: new Text('No image selected.'),
-                )
-              : Image.file(new File(imageFile!.path)),
-        ),
+            child: imageFile == null
+                ? Center(
+                    child: new Text('Please Select Image .'),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 640,
+                          height: 480,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            image: DecorationImage(
+                                image: FileImage(imageFile!),
+                                fit: BoxFit.cover),
+                            // border: Border.all(width: 8, color: Colors.black),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Text('Share',
+                                      style: TextStyle(fontSize: 18))),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    await GallerySaver.saveImage(
+                                        imageFile!.path);
+                                        print(imageFile!.path);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.orangeAccent,
+                                        content: Text(
+                                          ' images Save',
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Save',
+                                      style: TextStyle(fontSize: 18))),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () => getImage(context),

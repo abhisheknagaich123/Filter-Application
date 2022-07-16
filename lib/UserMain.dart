@@ -19,8 +19,8 @@ class _UserMainState extends State<UserMain> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
-    Profile(),
     Mainscreen(),
+     Profile(),
     ChangePassword(),
   ];
   void _onItemTapped(int index) {
@@ -37,6 +37,8 @@ class _UserMainState extends State<UserMain> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Welcome to Hybrid App"),
+            
+            
             ElevatedButton(
               onPressed: () async => {
                 await FirebaseAuth.instance.signOut(),

@@ -33,8 +33,8 @@ class _SignupState extends State<Signup> {
  
    final firebase = FirebaseFirestore.instance;
  // Uint8List? _image;
- XFile? xFile;
- final ImagePicker imagePicker =ImagePicker();
+//  XFile? xFile;
+//  final ImagePicker imagePicker =ImagePicker();
 
 
   @override

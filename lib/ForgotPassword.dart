@@ -26,9 +26,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
-  resetPassword() async {
+   Future resetPassword() async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.orangeAccent,
@@ -38,6 +38,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ),
       );
+       Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ),
+        );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

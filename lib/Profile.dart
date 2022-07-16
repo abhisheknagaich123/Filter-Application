@@ -13,28 +13,10 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-// String name='is loading...';
 
 
-// void getdata() async{
-// User? user= await FirebaseAuth.instance.currentUser;
-// var vari=await FirebaseFirestore.instance.collection('user').doc(user?.uid).get();
-// print(vari.data()!['username']);
-// // setState(() {
-// // print(vari.data()?['username']);
- 
-// // });
-// }
 
-// @override
-//   void initState() {
-//     // TODO: implement initState
-//     getdata();
-//     super.initState();
-//   }
-
-
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+  final String? uid = FirebaseAuth.instance.currentUser!.displayName;
   final email = FirebaseAuth.instance.currentUser!.email;
   final creationTime = FirebaseAuth.instance.currentUser!.metadata.creationTime;
  
@@ -58,37 +40,36 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       child: Column(
         children: [
-          
-          Row(
+          Text(
+            'User ID: $uid',
+            style: TextStyle(fontSize: 18.0),
+          ),
+          Column(
             children: [
-              
               Text(
-                'email:$email',
+                'Email: $email',
                 style: TextStyle(fontSize: 18.0),
               ),
-            ],
-          ),
-           
-          
-         
-         user!.emailVerified
+              user!.emailVerified
                   ? Text(
-                     'uid:$uid'
-                      ,style: TextStyle(fontSize: 18.0, color: Colors.blueGrey),
+                      'verified' ,
+                      style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 24, 107, 148)),
                     )
                   : TextButton(
                       onPressed: () => {verifyEmail()},
-                      child: Text('Verify Email')),
+                      child: Text(' click To Verify Email',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 212, 25, 19)),))
+            ],
+          ),
           Text(
             'Created: $creationTime',
             style: TextStyle(fontSize: 18.0),
           ),
+          
         ],
       ),
     );
