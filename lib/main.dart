@@ -1,5 +1,6 @@
 
 import 'package:filter_app/Login.dart';
+import 'package:filter_app/Test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -11,6 +12,7 @@ import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:image_picker/image_picker.dart';
 
+import 'Filter/Login12.dart';
 import 'Filterscreen.dart';
 import 'Notes/Screan1.dart';
 import 'UserMain.dart';
@@ -40,7 +42,7 @@ class App extends StatelessWidget {
               primarySwatch: Colors.deepPurple,
             ),
             debugShowCheckedModeBanner: false,
-            home: Mainscreen(),
+            home: Login(),
           );
         });
   }

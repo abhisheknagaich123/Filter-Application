@@ -1,7 +1,6 @@
 import 'package:filter_app/Filterscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'ChangePassword.dart';
 import 'Dashboard.dart';
 import 'Login.dart';

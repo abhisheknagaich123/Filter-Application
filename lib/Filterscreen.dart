@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:filter_app/Dashboard.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path/path.dart';
 import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:image_picker/image_picker.dart';
+
+import 'UserMain.dart';
 
 class Mainscreen extends StatefulWidget {
   @override
@@ -59,13 +62,13 @@ class _MainscreenState extends State<Mainscreen> {
                     child: new Text('Please Select Image .'),
                   )
                 : Padding(
-                    padding: const EdgeInsets.all(0.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 640,
-                          height: 480,
+                          width: 400,
+                          height: 350,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.grey,
@@ -83,7 +86,9 @@ class _MainscreenState extends State<Mainscreen> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await Share.shareFiles([imageFile!.path]);
+                                  },
                                   child: const Text('Share',
                                       style: TextStyle(fontSize: 18))),
                             ),
@@ -95,7 +100,7 @@ class _MainscreenState extends State<Mainscreen> {
                                   onPressed: () async {
                                     await GallerySaver.saveImage(
                                         imageFile!.path);
-                                        print(imageFile!.path);
+                                    print(imageFile!.path);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         backgroundColor: Colors.orangeAccent,
@@ -103,6 +108,12 @@ class _MainscreenState extends State<Mainscreen> {
                                           ' images Save',
                                           style: TextStyle(fontSize: 18.0),
                                         ),
+                                      ),
+                                    );
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserMain(),
                                       ),
                                     );
                                   },
